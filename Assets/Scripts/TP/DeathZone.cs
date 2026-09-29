@@ -14,6 +14,8 @@ namespace RobotPaint
                 return;
 
             robot.Kill();
+
+            Destroy(gameObject);
         }
     }
 }

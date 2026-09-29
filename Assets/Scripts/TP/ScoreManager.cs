@@ -9,10 +9,23 @@ namespace RobotPaint
     public class ScoreManager : MonoBehaviour
     {
         // TODO : transformer ScoreManager en singleton pour pouvoir l'appeler depuis ScoreZone
+        public static ScoreManager instance;
 
         [SerializeField] private Text scoreText;
 
         private int score;
+
+        private void Awake()
+        {
+            if (instance != null)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                instance = this;
+            }
+        }
 
         public void AddScore(int points)
         {

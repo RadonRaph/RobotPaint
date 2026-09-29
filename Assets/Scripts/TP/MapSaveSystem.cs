@@ -1,6 +1,9 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace RobotPaint
 {
@@ -26,8 +29,13 @@ namespace RobotPaint
         /// </summary>
         public void SaveMap(string saveName)
         {
+
+            Texture2D texture = painter.GetMapTexture();
+            byte[] octets = texture.EncodeToPNG();
+            File.WriteAllBytes(Application.dataPath + "/saves/" + saveName + ".png", octets);
             // TODO : painter.GetMapTexture() -> EncodeToPNG() -> File.WriteAllBytes(...)
         }
+        
 
         /// <summary>
         /// Retourne le nom de toutes les sauvegardes présentes dans SaveFolder.
@@ -35,7 +43,18 @@ namespace RobotPaint
         public List<string> GetAvailableSaves()
         {
             // TODO : Directory.GetFiles(...) -> Path.GetFileNameWithoutExtension(...)
-            return new List<string>();
+            string[] files = Directory.GetFiles(Application.dataPath + "/saves");
+            List<string> result = new List<string>();
+            
+            foreach(string file in files)
+            {
+                if (file.EndsWith(".png"))
+                {
+                    result.Add(Path.GetFileNameWithoutExtension(file));
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -45,6 +64,12 @@ namespace RobotPaint
         public void RefreshSaveList()
         {
             // TODO : ui.ClearSaveEntries() puis ui.CreateSaveEntry(nom) pour chaque sauvegarde
+            ui.ClearSaveEntries();
+            List<string> files = GetAvailableSaves();
+            foreach (string file in files)
+            {
+                ui.CreateSaveEntry(file);
+            }
         }
 
         /// <summary>
@@ -53,6 +78,10 @@ namespace RobotPaint
         public void OnLoad(string saveName)
         {
             // TODO : File.ReadAllBytes(...) -> texture.LoadImage(...) -> painter.LoadFromTexture(texture)
+            byte[] octets = File.ReadAllBytes(Application.dataPath + "/saves/" + saveName + ".png");
+            Texture2D texture = painter.GetMapTexture();
+            texture.LoadImage(octets);
+            painter.LoadFromTexture(texture);
         }
     }
 }

@@ -11,7 +11,8 @@ namespace RobotPaint
 
         private void OnTriggerEnter(Collider other)
         {
-            // TODO : si c'est le robot qui entre, ajouter les points au ScoreManager puis détruire la zone
+            ScoreManager.instance.AddScore(points);
+            Destroy(this.gameObject);
         }
     }
 }

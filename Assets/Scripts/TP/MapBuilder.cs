@@ -14,7 +14,11 @@ namespace RobotPaint
         public GameObject goalPrefab;
 
         // TODO : ajouter les prefabs ScoreZone, DeathZone et SpeedBoostZone
+        public GameObject scoreZone;
+        public GameObject deathZone;
+        public GameObject speedBoostZone;
 
+        #region OSEF
         [Header("NavMesh")]
         public NavMeshSurface navMeshSurface;
 
@@ -23,6 +27,7 @@ namespace RobotPaint
         public bool hasGoal;
         public Vector3 startPosition;
         public Vector3 goalPosition;
+        #endregion
 
         public void Build(Texture2D map, float cellSize)
         {
@@ -56,6 +61,18 @@ namespace RobotPaint
                         SpawnCell(goalPrefab, position, cellSize);
                         goalPosition = position;
                         hasGoal = true;
+                    }
+                    else if (color == new Color(1, 1, 0))
+                    {
+                        SpawnCell(scoreZone, position, cellSize);
+                    }
+                    else if (color == Color.red)
+                    {
+                        SpawnCell(deathZone, position, cellSize);
+                    }
+                    else if (color == Color.green)
+                    {
+                        SpawnCell(speedBoostZone, position, cellSize);
                     }
 
                     // TODO : Jaune = score, Rouge = mort, Vert = boost de vitesse
