@@ -29,12 +29,16 @@ namespace RobotPaint
             hasStart = false;
             hasGoal = false;
 
+            // On récupère tous les pixels du dessin en une seule fois.
+            // Le pixel (x, y) est à l'index x + y * map.width.
+            Color[] pixels = map.GetPixels();
+
             // On parcourt tous les pixels du dessin
             for (int x = 0; x < map.width; x++)
             {
                 for (int y = 0; y < map.height; y++)
                 {
-                    Color color = map.GetPixel(x, y);
+                    Color color = pixels[x + y * map.width];
                     Vector3 position = MapGrid.CellToWorld(x, y, map.width, cellSize);
 
                     if (color == Color.black)

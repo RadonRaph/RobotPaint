@@ -47,7 +47,9 @@ namespace RobotPaint
             transform.SetPositionAndRotation(new Vector3(0f, 0.01f, 0f), Quaternion.Euler(90f, 0f, 0f));
             transform.localScale = new Vector3(worldSize, worldSize, 1f);
 
-            Clear();
+            // Au lancement, on part de la carte de base (Scripts/TP/DefaultMap)
+            DefaultMap.Draw(mapTexture);
+            ApplyChanges();
         }
 
         private void Update()

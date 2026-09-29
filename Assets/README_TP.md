@@ -23,6 +23,7 @@ Ouvrir la scène `Assets/Scenes/RobotPaint.unity`, puis Play.
 
 | Script | Rôle |
 |---|---|
+| `DefaultMap` | Carte de base, dessinée au lancement du jeu. |
 | `MapBuilder` | Transforme le dessin en carte 3D : une couleur = un prefab. |
 | `ScoreManager` | Score de la partie (à transformer en singleton). |
 | `ScoreZone` | Case Jaune : donne des points (à écrire). |
@@ -37,7 +38,19 @@ Cherchez `TODO` dans le dossier `TP` pour trouver les points à compléter.
 
 ---
 
-## Étape 1 : Nouvelles couleurs
+## Étape 1 : La carte de base
+
+Au lancement, `DefaultMap.Draw` remplit la carte de 32×32 pixels en blanc. Modifiez-la pour dessiner une vraie carte de départ, en remplissant le tableau `pixels` avant l'appel à `map.SetPixels(pixels)`.
+
+1. Ajouter un mur noir tout autour de la carte.
+2. Placer un départ bleu et une arrivée magenta.
+3. Ajouter quelques murs à l'intérieur pour faire un petit labyrinthe.
+
+> Le pixel `(x, y)` est à l'index `x + y * map.width` du tableau. `(0, 0)` est en bas à gauche, `(31, 31)` en haut à droite. Utilisez `map.width` et `map.height` plutôt que d'écrire 32 en dur.
+>
+> ⚠️ N'appelez pas `SetPixel` pixel par pixel : c'est lent. On remplit le tableau, puis on fait un seul `SetPixels`.
+
+## Étape 2 : Nouvelles couleurs
 
 | Couleur | Effet | Prefab |
 |---|---|---|
@@ -58,7 +71,7 @@ Cherchez `TODO` dans le dossier `TP` pour trouver les points à compléter.
 1. `ScoreManager` : le transformer en **singleton**, pour qu'on puisse l'appeler depuis n'importe quel script avec `ScoreManager.Instance`.
 2. `ScoreZone` : écrire `OnTriggerEnter`. Si c'est le robot qui entre, on ajoute les points au `ScoreManager`, puis on détruit la zone. Inspirez-vous de `DeathZone`.
 
-## Étape 2 : Sauvegarde / chargement
+## Étape 3 : Sauvegarde / chargement
 
 Il faut compléter les 4 fonctions de `MapSaveSystem`. Les boutons de l'UI les appellent déjà.
 
